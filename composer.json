@@ -1,0 +1,12 @@
+{
+    "name": "dan-ast/job-application-tracker",
+    "description": "A PHP application for tracking job applications.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anastasiia Dekret"
+        }
+    ],
+    "require": {}
+}
