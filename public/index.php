@@ -47,43 +47,46 @@ $applications = [
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/assets/css/app.css">
 
         <title><?= escape($appName) ?></title>
     </head>
     <body>
-        <main>
+        <main class="page-container">
             <h1><?= escape($appName) ?></h1>
 
-            <p><?= escape($description) ?></p>
-            <section aria-labelledby="application-heading">
+            <p class="page-intro"><?= escape($description) ?></p>
+            <section class="applications-panel" aria-labelledby="application-heading">
                 <h2 id="application-heading">Applications</h2>
 
                 <?php if ($applications === []): ?>
                     <p>No job applications found.</p>
                 <?php else: ?>
-                    <table>
-                        <caption>Current job applications</caption>
+                    <div class="table-wrapper">
+                        <table>
+                            <caption>Current job applications</caption>
 
-                        <thead>
-                            <tr>
-                                <th scope="col">Company</th>
-                                <th scope="col">Position</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Applied at</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <?php foreach ($applications as $application): ?>
+                            <thead>
                                 <tr>
-                                    <td><?= escape($application['company']) ?></td>
-                                    <td><?= escape($application['position']) ?></td>
-                                    <td><?= escape(ucfirst($application['status'])) ?></td>
-                                    <td><?= escape($application['applied_at']) ?></td>
+                                    <th scope="col">Company</th>
+                                    <th scope="col">Position</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Applied at</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                <?php foreach ($applications as $application): ?>
+                                    <tr>
+                                        <td><?= escape($application['company']) ?></td>
+                                        <td><?= escape($application['position']) ?></td>
+                                        <td><?= escape(ucfirst($application['status'])) ?></td>
+                                        <td><?= escape($application['applied_at']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php endif; ?>
             </section>
         </main>
