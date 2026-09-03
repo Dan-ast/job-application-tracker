@@ -38,6 +38,20 @@ $applications = [
     ],
 ];
 
+$statusCounts = [
+    'applied' => 0,
+    'interview' => 0,
+    'rejected' => 0,
+];
+
+foreach ($applications as $application) {
+    $status = $application['status'];
+
+    if (isset($statusCounts[$status])) {
+        $statusCounts[$status]++;
+    }
+}
+
 
 
 ?>
@@ -56,6 +70,29 @@ $applications = [
             <h1><?= escape($appName) ?></h1>
 
             <p class="page-intro"><?= escape($description) ?></p>
+
+            <dl class="statistics-grid" aria-label="Application statistics">
+                <div class="stat-card">
+                    <dt>Total applications</dt>
+                    <dd><?= count($applications) ?></dd>
+                </div>
+
+                <div class="stat-card">
+                    <dt>Applied</dt>
+                    <dd><?= $statusCounts['applied'] ?></dd>
+                </div>
+
+                <div class="stat-card">
+                    <dt>Interviews</dt>
+                    <dd><?= $statusCounts['interview'] ?></dd>
+                </div>
+
+                <div class="stat-card">
+                    <dt>Rejected</dt>
+                    <dd><?= $statusCounts['rejected'] ?></dd>
+                </div>
+            </dl>
+
             <section class="applications-panel" aria-labelledby="application-heading">
                 <h2 id="application-heading">Applications</h2>
 

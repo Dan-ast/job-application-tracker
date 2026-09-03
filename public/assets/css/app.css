@@ -18,7 +18,7 @@ body {
     margin: 0;
     color: var(--color-text);
     background: 
-        radial-gradient(circle at top right, #ebe1dc 0, tranparent 34%),
+        radial-gradient(circle at top right, #ebe1dc 0, transparent 34%),
         var(--color-background);
     font-family: 
         Inter,
@@ -51,7 +51,37 @@ h1 {
     font-size: 1.05rem;
 }
 
-.application-panel {
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 40px 0 0;
+}
+
+.stat-card {
+    padding: 22px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    box-shadow: var(--shadow-panel);
+}
+
+.stat-card dt {
+    color: var(--color-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.stat-card dd {
+    margin: 8px 0 0;
+    font-size: 2rem;
+    font-weight: 750;
+    line-height: 1;
+}
+
+.applications-panel {
     margin-top: 40px;
     overflow: hidden;
     background: var(--color-surface);
@@ -60,7 +90,7 @@ h1 {
     box-shadow: var(--shadow-panel);
 }
 
-.application-panel h2 {
+.applications-panel h2 {
     margin: 0;
     padding: 28px 28px 0;
     font-size: 1.5rem;
@@ -111,18 +141,33 @@ tbody tr:hover {
     background: #faf6f1;
 }
 
+@media (max-width: 800px) {
+    .statistics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 600px) {
     .page-container {
         width: min(100% - 20px, 1120px);
         padding: 36px 0;
     }
 
-    .application-panel {
+    .statistics-grid {
+        gap: 10px;
+        margin-top: 28px;
+    }
+
+    .stat-card {
+        padding: 18px;
+    }
+
+    .applications-panel {
         margin-top: 28px;
         border-radius: 14px;
     }
 
-    .application-panel h2 {
+    .applications-panel h2 {
         padding-inline: 20px;
     }
 
