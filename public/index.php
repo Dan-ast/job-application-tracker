@@ -49,6 +49,10 @@ foreach ($applications as $application) {
 
             <p class="page-intro"><?= escape($description) ?></p>
 
+            <p class="page-actions">
+                <a class="button" href="/create.php">Add application</a>
+            </p>
+
             <dl class="statistics-grid" aria-label="Application statistics">
                 <div class="stat-card">
                     <dt>Total applications</dt>
