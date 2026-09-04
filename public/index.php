@@ -14,29 +14,7 @@ function escape(string $value): string
 $appName = 'Job Application Tracker';
 $description = 'Track and manage your job applications in one place';
 
-$applications = [
-    [
-        'id' => 1,
-        'company' => 'Nordlicht Digital GmbH',
-        'position' => 'Junior PHP Developer',
-        'status' => 'applied',
-        'applied_at' => '2026-08-18',
-    ],
-    [
-        'id' => 2,
-        'company' => 'RheinCode Solutions',
-        'position' => 'Frontend Developer',
-        'status' => 'interview',
-        'applied_at' => '2026-08-21',
-    ],
-    [
-        'id' => 3,
-        'company' => 'Cobalt Systems',
-        'position' => 'Junior Full Stack Developer',
-        'status' => 'rejected',
-        'applied_at' => '2026-08-23',
-    ],
-];
+$applications = require __DIR__ . '/../data/applications.php';
 
 $statusCounts = [
     'applied' => 0,
