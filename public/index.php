@@ -2,14 +2,7 @@
 
 declare(strict_types=1);
 
-function escape(string $value): string
-{
-    return htmlspecialchars(
-        $value,
-        ENT_QUOTES | ENT_SUBSTITUTE,
-        'UTF-8'
-    );
-}
+require_once __DIR__ .'/../src/helpers.php';
 
 $appName = 'Job Application Tracker';
 $description = 'Track and manage your job applications in one place';
@@ -30,8 +23,6 @@ foreach ($applications as $application) {
     }
 }
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -48,6 +39,10 @@ foreach ($applications as $application) {
             <h1><?= escape($appName) ?></h1>
 
             <p class="page-intro"><?= escape($description) ?></p>
+
+            <p class="page-actions">
+                <a class="button" href="/create.php">Add application</a>
+            </p>
 
             <dl class="statistics-grid" aria-label="Application statistics">
                 <div class="stat-card">
