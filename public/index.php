@@ -2,14 +2,7 @@
 
 declare(strict_types=1);
 
-function escape(string $value): string
-{
-    return htmlspecialchars(
-        $value,
-        ENT_QUOTES | ENT_SUBSTITUTE,
-        'UTF-8'
-    );
-}
+require_once __DIR__ .'/../src/helpers.php';
 
 $appName = 'Job Application Tracker';
 $description = 'Track and manage your job applications in one place';
@@ -29,8 +22,6 @@ foreach ($applications as $application) {
         $statusCounts[$status]++;
     }
 }
-
-
 
 ?>
 

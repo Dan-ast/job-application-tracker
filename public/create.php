@@ -1,3 +1,62 @@
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ .'/../src/helpers.php';
+
+$values = [
+    'company' => '',
+    'position' => '',
+    'status' => 'applied',
+    'applied_at' => '',
+];
+
+$errors = [];
+$isValid = false;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    foreach ($values as $field => $defaultValue) {
+        $submittedValue = $_POST[$field] ?? '';
+
+        $values[$field] = is_string($submittedValue) ? trim($submittedValue) : '';
+    }
+
+    foreach (['company' => 'Company', 'position' => 'Position'] as $field => $label) {
+        if ($values[$field] === '') {
+            $errors[$field] = "$label is required.";
+        } elseif (preg_match('/\A.{1,255}\z/us', $values[$field]) !== 1) {
+            $errors[$field] = "$label must be valid text of no more than 255 characters.";
+        }
+    }
+
+    $allowedStatuses = ['applied', 'interview', 'rejected'];
+
+    if (!in_array($values['status'], $allowedStatuses, true)) {
+        $errors['status'] = 'Choose a valid application status.';
+    }
+
+    $dateIsValid = false;
+
+    if (preg_match('/\A[0-9]{4}-[0-9]{2}-[0-9]{2}\z/', $values['applied_at']) === 1) {
+        [$year, $month, $day] = explode('-', $values['applied_at']);
+
+        $dateIsValid = checkdate(
+            (int) $month,
+            (int) $day,
+            (int) $year
+        );
+    }
+
+    if (!$dateIsValid) {
+        $errors['applied_at'] = 'Enter a valid application date.';
+    }
+
+    $isValid = $errors === [];
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,37 +77,85 @@
             Enter the details of your job application.
         </p>
 
-        <form class="applications-panel application-form" action="/create.php" method="post">
+        <?php if ($errors !== []): ?>
+            <div class="form-message form-message--error" role="alert">
+                <p>Please correct the following:</p>
+
+                <ul>
+                    <?php foreach ($errors as $field => $message): ?>
+                        <li>
+                            <a href="#<?= escape($field) ?>">
+                                <?= escape($message) ?>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                </ul>
+            </div>
+
+        <?php elseif ($isValid): ?>
+            <p class="form-message form-message--success" role="status">
+                The details are valid. Nothing has been saved yet.
+            </p>
+        <?php endif; ?>
+
+        <form class="applications-panel application-form" action="/create.php" method="post" novalidate>
             <div class="form-field">
                 <label for="company">Company</label>
-                <input type="text" id="company" name="company" max-length="255" required>
+                <input
+                    type="text"
+                    id="company"
+                    name="company"
+                    value="<?= escape($values['company']) ?>"
+                    maxlength="255"
+                    required
+                >
             </div>
 
             <div class="form-field">
                 <label for="position">Position</label>
-                <input type="text" id="position" name="position" max-length="255" required>
+                <input
+                    type="text"
+                    id="position"
+                    name="position"
+                    value="<?= escape($values['position']) ?>"
+                    maxlength="255"
+                    required
+                >
             </div>
 
             <div class="form-field">
                 <label for="status">Status</label>
                 <select id="status" name="status" required>
-                    <option value="applied">Applied</option>
-                    <option value="interview">Interview</option>
-                    <option value="rejected">Rejected</option>
+                    <option value="">Choose a status</option>
+                    <option value="applied" <?= $values['status'] === 'applied' ? 'selected' : '' ?>>
+                        Applied
+                    </option>
+                    <option value="interview" <?= $values['status'] === 'interview' ? 'selected' : '' ?>>
+                        Interview
+                    </option>
+                    <option value="rejected" <?= $values['status'] === 'rejected' ? 'selected' : '' ?>>
+                        Rejected
+                    </option>
                 </select>
             </div>
 
             <div class="form-field">
                 <label for="applied_at">Applied at</label>
-                <input type="date" id="applied_at" name="applied_at" required>
+                <input
+                    type="date"
+                    id="applied_at"
+                    name="applied_at"
+                    value="<?= escape($values['applied_at']) ?>"
+                    required
+                >
             </div>
 
             <p class="form-note">
-                Form preview - saving is not available yet.
+                Validation preview - applications are not saved yet.
             </p>
 
-            <button class="button" type="submit" disabled>
-                Save application
+            <button class="button" type="submit">
+                Check application
             </button>
         </form>
     </main>
