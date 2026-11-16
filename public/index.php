@@ -3,11 +3,23 @@
 declare(strict_types=1);
 
 require_once __DIR__ .'/../src/helpers.php';
+require_once __DIR__ .'/../src/database.php';
 
 $appName = 'Job Application Tracker';
 $description = 'Track and manage your job applications in one place';
 
-$applications = require __DIR__ . '/../data/applications.php';
+
+$pdo = database();
+
+$statement = $pdo->query(
+    <<<'SQL'
+    SELECT id, company, position, status, applied_at
+    FROM applications
+    ORDER BY applied_at DESC, id DESC
+    SQL
+);
+
+$applications = $statement->fetchAll();
 
 $statusCounts = [
     'applied' => 0,
