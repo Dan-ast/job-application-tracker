@@ -3,3 +3,7 @@
 *.log
 .DS_Store
 Thumbs.db
+
+# Local SQLite database files
+/storage/*.sqlite
+/stirage/*.sqlite-*
