@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ .'/../src/helpers.php';
+require_once __DIR__ .'/../src/database.php';
 
 $values = [
     'company' => '',
@@ -53,6 +54,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $isValid = $errors === [];
 
+    if ($isValid) {
+        $statement = database()->prepare(
+            <<<'SQL'
+            INSERT INTO applications (
+                company,
+                position,
+                status,
+                applied_at
+            )
+            VALUES (
+                :company,
+                :position,
+                :status,
+                :applied_at
+            )
+            SQL
+        );
+
+        $statement->execute([
+            'company' => $values['company'],
+            'position' => $values['position'],
+            'status' => $values['status'],
+            'applied_at' => $values['applied_at'],
+        ]);
+
+        header('Location: /', true, 303);
+        exit;
+    }
+
 }
 
 ?>
@@ -92,10 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </ul>
             </div>
 
-        <?php elseif ($isValid): ?>
-            <p class="form-message form-message--success" role="status">
-                The details are valid. Nothing has been saved yet.
-            </p>
         <?php endif; ?>
 
         <form class="applications-panel application-form" action="/create.php" method="post" novalidate>
@@ -151,11 +177,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <p class="form-note">
-                Validation preview - applications are not saved yet.
+                All fields are required.
             </p>
 
             <button class="button" type="submit">
-                Check application
+                Save application
             </button>
         </form>
     </main>
