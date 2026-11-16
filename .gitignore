@@ -6,4 +6,4 @@ Thumbs.db
 
 # Local SQLite database files
 /storage/*.sqlite
-/stirage/*.sqlite-*
+/storage/*.sqlite-*
